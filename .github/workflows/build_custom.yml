@@ -26,13 +26,13 @@ jobs:
       - name: Build Firmware
         run: |
           cat > platformio_override.ini << EOF
-[env:tasmota32c3]
-platform = https://github.com/tasmota/platform-espressif32/releases/download/2024.06.00/platform-espressif32.zip
-board = esp32-c3-devkitm-1
-framework = arduino
-build_flags = -DUSE_TASMOTA
-lib_extra_dirs = lib
-EOF
+          [env:tasmota32c3]
+          platform = https://github.com/tasmota/platform-espressif32/releases/download/2024.06.00/platform-espressif32.zip
+          board = esp32-c3-devkitm-1
+          framework = arduino
+          build_flags = -DUSE_TASMOTA
+          lib_extra_dirs = lib
+          EOF
           pio run -t clean -e tasmota32c3
           pio run -e tasmota32c3
 
