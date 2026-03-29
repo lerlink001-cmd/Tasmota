@@ -41,3 +41,4 @@ EOF
         with:
           name: tasmota32c3-firmware
           path: .pio/build/tasmota32c3/*.bin
+
