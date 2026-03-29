@@ -1,0 +1,43 @@
+name: Build Tasmota ESP32-C3
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U platformio wheel
+          pip install littlefs-python
+
+      - name: Build Firmware
+        run: |
+          cat > platformio_override.ini << EOF
+[env:tasmota32c3]
+platform = https://github.com/tasmota/platform-espressif32/releases/download/2024.06.00/platform-espressif32.zip
+board = esp32-c3-devkitm-1
+framework = arduino
+build_flags = -DUSE_TASMOTA
+lib_extra_dirs = lib
+EOF
+          pio run -t clean -e tasmota32c3
+          pio run -e tasmota32c3
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: tasmota32c3-firmware
+          path: .pio/build/tasmota32c3/*.bin
