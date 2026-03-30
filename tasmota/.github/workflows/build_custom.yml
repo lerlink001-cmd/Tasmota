@@ -23,18 +23,26 @@ jobs:
           pip install -U platformio wheel
           pip install littlefs-python
 
+
+
       - name: Build Firmware
         run: |
-          cat > platformio_override.ini << EOF
-[env:tasmota32c3]
-platform = https://github.com/tasmota/platform-espressif32/releases/download/2024.06.00/platform-espressif32.zip
-board = esp32-c3-devkitm-1
-framework = arduino
-build_flags = -DUSE_TASMOTA
-lib_extra_dirs = lib
+          cat > platformio_override.ini << 'EOF'
+[platformio]
+default_envs = tasmota32c3-custom
+
+[env:tasmota32c3-custom]
+extends = env:tasmota32c3
+build_flags = 
+    ${env:tasmota32c3.build_flags}
+    -DUSE_CONFIG_OVERRIDE
+    -DUSE_CSE7766
+    -DUSE_ENERGY_SENSOR
 EOF
-          pio run -t clean -e tasmota32c3
-          pio run -e tasmota32c3
+          
+          pio run -t clean -e tasmota32c3-custom
+          pio run -e tasmota32c3-custom
+          
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
