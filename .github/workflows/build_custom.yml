@@ -9,7 +9,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          submodules: 'recursive'  # 关键：递归拉取所有嵌套子模块
           fetch-depth: 0
 
       - name: Set up Python
@@ -41,4 +41,3 @@ jobs:
         with:
           name: tasmota32c3-firmware
           path: .pio/build/tasmota32c3/*.bin
-
