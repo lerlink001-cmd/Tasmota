@@ -3,7 +3,7 @@
 
 // 强制重置配置（修改数值触发重置）
 #undef CFG_HOLDER
-#define CFG_HOLDER      0x20250331
+#define CFG_HOLDER      0x20260330
 
 // 设备信息
 #undef PROJECT
