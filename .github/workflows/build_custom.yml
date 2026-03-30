@@ -47,7 +47,7 @@ jobs:
       # 步骤5：编译 ESP32-C3 固件
       - name: Build Tasmota32-C3 firmware
         run: |
-          cd tasmota                    # 进入 Tasmota 源码目录
+          # cd tasmota                    # 进入 Tasmota 源码目录
           # 编译 ESP32-C3 固件（指定编译环境）
           pio run -e tasmota32c3
           # 验证编译产物
