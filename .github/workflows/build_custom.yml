@@ -12,6 +12,9 @@ jobs:
           submodules: 'recursive'  # 关键：递归拉取所有嵌套子模块
           fetch-depth: 0
 
+      - name: Initialize and update submodules
+        run: git submodule update --init --recursive --force
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
