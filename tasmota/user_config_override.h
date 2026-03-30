@@ -11,6 +11,10 @@
 #define USE_ENERGY_MONITOR       // 启用能源监测
 #define USE_LED_LINKED           // 启用指示灯（GPIO8）
 
+// 显式指定模块为 ESP32C3 (1)（量产更稳妥）
+#undef MODULE
+#define MODULE 1
+
 // ==============================
 // 2. 强制双继电器（避免单继电器默认）
 // ==============================
