@@ -15,7 +15,7 @@
 // GPIO 模板（核心配置）
 // ============================================
 #undef USER_TEMPLATE
-#define USER_TEMPLATE   "{\"NAME\":\"C3-DualRelay-HLW\",\"GPIO\":[0,0,0,0,225,224,0,0,640,0,0,0,0,0,0,0,0,0,33,32,6400,0,0,0,0,0,0,0,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
+#define USER_TEMPLATE   "{\"NAME\":\"C3-DualRelay-HLW\",\"GPIO\":[0,0,0,0,225,224,0,0,640,0,0,0,0,0,0,0,0,0,33,32,6400,0],\"FLAG\":0,\"BASE\":1}"
 
 // 编码说明：
 // GPIO4=225(Relay2)  GPIO5=224(Relay1)  GPIO8=640(LED)
