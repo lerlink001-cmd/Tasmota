@@ -47,7 +47,7 @@ jobs:
       # 步骤5：编译 ESP32-C3 固件
       - name: Build Tasmota32-C3 firmware
         run: |
-          cd tasmota
+          # cd tasmota
           pio run -e tasmota32c3-custom
           ls -la .pio/build/tasmota32c3-custom/*.bin
 
