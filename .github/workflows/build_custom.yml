@@ -49,7 +49,7 @@ jobs:
         run: |
           # cd tasmota                    # 进入 Tasmota 源码目录
           # 编译 ESP32-C3 固件（指定编译环境）
-          pio run -e tasmota32c3
+          pio run -e tasmota32c3-custom
           # 验证编译产物
           ls -la .pio/build/tasmota32c3/*.bin
 
