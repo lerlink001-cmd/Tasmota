@@ -1,46 +1,62 @@
 #ifndef _USER_CONFIG_OVERRIDE_H_
 #define _USER_CONFIG_OVERRIDE_H_
 
-// 强制重置配置（修改数值触发重置）
-#undef CFG_HOLDER
-#define CFG_HOLDER      0x20260330
+// ===== 强制新配置 =====
+#ifndef CFG_HOLDER
+  #define CFG_HOLDER 0x20260331
+#endif
 
-// 设备信息
-#undef PROJECT
-#define PROJECT         "Tasmota-C3-DualRelay"
-#undef FRIENDLY_NAME
-#define FRIENDLY_NAME   "C3智能插座"
+// ===== 设备名 =====
+#ifndef FRIENDLY_NAME
+  #define FRIENDLY_NAME "C3-DualRelay-HLW"
+#endif
 
-// ============================================
-// GPIO 模板（核心配置）
-// ============================================
-#undef USER_TEMPLATE
-#define USER_TEMPLATE   "{\"NAME\":\"C3-DualRelay-HLW\",\"GPIO\":[0,0,0,0,225,224,0,0,640,0,0,0,0,0,0,0,0,0,33,32,6400,0],\"FLAG\":0,\"BASE\":1}"
+// ===== Web =====
+#ifndef USE_WEBSERVER
+  #define USE_WEBSERVER
+#endif
 
-// 编码说明：
-// GPIO4=225(Relay2)  GPIO5=224(Relay1)  GPIO8=640(LED)
-// GPIO18=33(Button2) GPIO19=32(Button1) GPIO20=6400(HLW8032/CSE7766 RX)
+// ===== 规则 =====
+#ifndef USE_RULES
+  #define USE_RULES
+#endif
 
-// ============================================
-// 启用内置电量计（串口直连自动识别 4800bps）
-// ============================================
-#define USE_ENERGY_SENSOR
-#define USE_CSE7766              // 内置驱动支持 HLW8032
+// ===== 电能计量 =====
+#ifndef USE_ENERGY_SENSOR
+  #define USE_ENERGY_SENSOR
+#endif
 
-// ============================================
-// 按键联动
-// ============================================
-#define USE_BUTTON_V2
-#define BUTTON1_RELAY    1
-#define BUTTON2_RELAY    2
+#ifndef USE_CSE7766
+  #define USE_CSE7766
+#endif
 
-// LED
-#define LED_PIN          8
-#define LED_INVERTED     1
+// ===== 自动发现 =====
+#ifndef USE_DISCOVERY
+  #define USE_DISCOVERY
+#endif
 
-// 禁用节省空间
-#undef USE_IR_REMOTE
-#undef USE_RF_BRIDGE
-#undef USE_ZIGBEE
+// ===== Home Assistant =====
+#ifndef USE_HOME_ASSISTANT
+  #define USE_HOME_ASSISTANT
+#endif
+
+// =====（可选）设备模拟 =====
+#ifndef USE_EMULATION
+  #define USE_EMULATION
+#endif
+
+// ===== GPIO模板（你的配置）=====
+#ifndef USER_TEMPLATE
+  #define USER_TEMPLATE "{\"NAME\":\"C3-DualRelay-HLW\",\"GPIO\":[0,0,0,0,225,224,0,0,640,0,0,0,0,0,0,0,0,0,33,32,6400,0],\"FLAG\":0,\"BASE\":1}"
+#endif
+
+// ===== 默认行为 =====
+#ifndef SETOPTION73
+  #define SETOPTION73 0
+#endif
+
+#ifndef SETOPTION1
+  #define SETOPTION1 1
+#endif
 
 #endif
