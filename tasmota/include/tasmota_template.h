@@ -3804,4 +3804,68 @@ const mytmplt kModules[] PROGMEM = {
 */
 
 
+//ESP32C3-LXIRTH
+// ========== 15.3.0.3版本专属：修改WebUI顶部两行标题 ==========
+// 第一行（原ESP32C3）：修改模块模板的NAME字段
+#undef TEMPLATE_GENERIC
+#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP32C3_IRTH\",\"GPIO\":[0,0,0,1056,1088,576,0,0,0,32,0,0,0,0,0,0,0,0,640,608,0,0],"FLAG":0,"BASE":1}"
+
+//第二行 实际没显示出来，第二行固定显示  Tasmota
+// 第二行（原Tasmota）：修改固件类型标识
+#undef FIRMWARE_TYPE
+#define FIRMWARE_TYPE "LX-IRTH V1.0"
+
+
+#undef BASE_TEMPLATE
+#define BASE_TEMPLATE TEMPLATE_GENERIC
+
+// 强制模块使用自定义模板
+#undef MODULE_DEFAULT
+#define MODULE_DEFAULT 0
+
+// 开机自动加载模板（双重保险）
+#undef USER_BACKLOG
+#define USER_BACKLOG "Module 0; Template " TEMPLATE_GENERIC "; Restart 1"
+
+//解锁串口输入功能
+#define SERIAL_CONSOLE_INPUT 1
+
+
+
+// 示例：比如想显示 "MyESP32C3" + "SmartSwitch"
+// #define PROJECT "Lerlink_ESP32C3_IR"
+// #define MY_BUILD_VERSION "LX-IR01"
+
+#undef PROJECT
+#define PROJECT "Lerlink_ESP32C3_IRTH"  // 自定义第一行名称
+
+//Version 没显示出来，第二行固定显示  Tasmota
+#undef MY_BUILD_VERSION
+#define MY_BUILD_VERSION "LX-IRTH"  // 自定义第二行名称
+
+// 3. 自定义串口打印信息
+#undef USER_INITIALIZE
+#define USER_INITIALIZE \
+  Serial.begin(SERIAL_BAUDRATE); \
+  delay(100); \
+  Serial.println("\n========================"); \
+  Serial.println("  Lerlink"); \
+  Serial.println("========================"); \
+  Serial.print("  设备标识："); Serial.println(PROJECT); \
+  Serial.print("  固件版本："); Serial.println(MY_BUILD_VERSION); \
+  Serial.print("  GPIO配置模板："); Serial.println(TEMPLATE_GENERIC); \
+  Serial.println("  串口波特率：115200"); \
+  Serial.println("  GPIO配置已生效 ✅"); \
+  Serial.println("========================\n");
+
+// 4. 串口基础配置（必加）
+#undef SERIAL_BAUDRATE
+#define SERIAL_BAUDRATE 115200
+#define SERIAL_CONSOLE_INPUT 1
+#define SERIAL_CONSOLE_OUTPUT 1
+
+
+
+
+
 #endif  // _TASMOTA_TEMPLATE_H_
