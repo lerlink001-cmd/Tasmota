@@ -3737,4 +3737,26 @@ const mytmplt kModules[] PROGMEM = {
 #endif  // ESP32/S2/C3 selection
 #endif  // ESP32
 
+
+
+//Ler
+// ========== 强制配置ESP32C3 GPIO模板（15.3.0.3专用） ==========
+#undef TEMPLATE_GENERIC
+#define TEMPLATE_GENERIC "{\"NAME\":\"ESP32C3\",\"GPIO\":[0,0,0,0,0,576,0,0,0,32,0,0,0,0,0,0,0,0,1056,1088,0,0],\"FLAG\":0,\"BASE\":1}"
+
+#undef BASE_TEMPLATE
+#define BASE_TEMPLATE TEMPLATE_GENERIC
+
+// 强制模块使用自定义模板
+#undef MODULE_DEFAULT
+#define MODULE_DEFAULT 0
+
+// 开机自动加载模板（双重保险）
+#undef USER_BACKLOG
+#define USER_BACKLOG "Module 0; Template " TEMPLATE_GENERIC "; Restart 1"
+
+
+
+
+
 #endif  // _TASMOTA_TEMPLATE_H_
