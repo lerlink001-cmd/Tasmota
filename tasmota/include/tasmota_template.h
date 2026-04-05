@@ -12,7 +12,7 @@
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-
+"FLAG":0,"BASE":1
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -3727,7 +3727,7 @@ const mytmplt kModules[] PROGMEM = {
 /*********************************************************************************************\
  Known templates
 
-{"NAME":"AITHINKER CAM","GPIO":[4992,1,1,1,1,5088,1,1,1,1,1,1,1,1,5089,5090,0,5091,5184,5152,0,5120,5024,5056,0,0,0,0,4928,1,5094,5095,5092,0,0,5093],"FLAG":0,"BASE":1}
+{"NAME":"AITHINKER CAM","GPIO":[4992,1,1,1,1,5088,1,1,1,1,1,1,1,1,5089,5090,0,5091,5184,5152,0,5120,5024,5056,0,0,0,0,4928,1,5094,5095,5092,0,0,5093],\"FLAG\":0,\"BASE\":1}
 {"NAME":"Olimex ESP32-PoE","GPIO":[1,1,1,1,1,1,0,0,5536,1,1,1,1,0,5600,0,0,0,0,5568,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,1],"FLAG":0,"BASE":1}
 {"NAME":"wESP32","GPIO":[1,1,1,1,1,1,0,0,0,1,1,1,5568,5600,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,1],"FLAG":0,"BASE":1}
 {"NAME":"Denky (Teleinfo)","GPIO":[1,1,1,1,5664,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1376,1,1,0,0,0,0,1,5632,1,1,1,0,0,1],"FLAG":0,"BASE":1}
@@ -3808,7 +3808,7 @@ const mytmplt kModules[] PROGMEM = {
 // ========== 15.3.0.3版本专属：修改WebUI顶部两行标题 ==========
 // 第一行（原ESP32C3）：修改模块模板的NAME字段
 #undef TEMPLATE_GENERIC
-#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP32C3_IRTH\",\"GPIO\":[0,0,0,1056,1088,576,0,0,0,32,0,0,0,0,0,0,0,0,640,608,0,0],"FLAG":0,"BASE":1}"
+#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP32C3_IRTH\",\"GPIO\":[0,0,0,1056,1088,576,0,0,0,32,0,0,0,0,0,0,0,0,640,608,0,0],\"FLAG\":0,\"BASE\":1}"
 
 //第二行 实际没显示出来，第二行固定显示  Tasmota
 // 第二行（原Tasmota）：修改固件类型标识
