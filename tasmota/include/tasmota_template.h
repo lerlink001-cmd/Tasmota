@@ -3741,6 +3741,7 @@ const mytmplt kModules[] PROGMEM = {
 
 //Ler 20260405 
 
+/*  ESP32C3-LXIR01
 // ========== 15.3.0.3版本专属：修改WebUI顶部两行标题 ==========
 // 第一行（原ESP32C3）：修改模块模板的NAME字段
 #undef TEMPLATE_GENERIC
@@ -3800,6 +3801,7 @@ const mytmplt kModules[] PROGMEM = {
 #define SERIAL_CONSOLE_INPUT 1
 #define SERIAL_CONSOLE_OUTPUT 1
 
+*/
 
 
 #endif  // _TASMOTA_TEMPLATE_H_
