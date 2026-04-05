@@ -3823,9 +3823,13 @@ const mytmplt kModules[] PROGMEM = {
 #undef MODULE_DEFAULT
 #define MODULE_DEFAULT 0
 
+// 【关键】强制刷新配置版本号，确保擦除后加载新配置
+#undef CFG_HOLDER
+#define CFG_HOLDER 999999  // 每次改配置+1，这里用一个大数值
+
 // 开机自动加载模板（双重保险）
 #undef USER_BACKLOG
-#define USER_BACKLOG "Module 0; Template " TEMPLATE_GENERIC "; Restart 1"
+#define USER_BACKLOG "Module 0; Template " TEMPLATE_GENERIC "; FriendlyName 1 \"Lerlink_ESP32C3_IRTH\"; Restart 1"
 
 //解锁串口输入功能
 #define SERIAL_CONSOLE_INPUT 1
