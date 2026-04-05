@@ -3744,8 +3744,9 @@ const mytmplt kModules[] PROGMEM = {
 // ========== 15.3.0.3版本专属：修改WebUI顶部两行标题 ==========
 // 第一行（原ESP32C3）：修改模块模板的NAME字段
 #undef TEMPLATE_GENERIC
-#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink\",\"GPIO\":[0,0,0,0,0,576,0,0,0,32,0,0,0,0,0,0,0,0,1056,1088,0,0],\"FLAG\":0,\"BASE\":1}"
+#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP32C3_IR\",\"GPIO\":[0,0,0,0,0,576,0,0,0,32,0,0,0,0,0,0,0,0,1056,1088,0,0],\"FLAG\":0,\"BASE\":1}"
 
+//第二行 实际没显示出来，第二行固定显示  Tasmota
 // 第二行（原Tasmota）：修改固件类型标识
 #undef FIRMWARE_TYPE
 #define FIRMWARE_TYPE "LX-IR V1.0"
@@ -3765,14 +3766,16 @@ const mytmplt kModules[] PROGMEM = {
 //解锁串口输入功能
 #define SERIAL_CONSOLE_INPUT 1
 
-// 2. 修改WebUI顶部显示名称
+
 
 // 示例：比如想显示 "MyESP32C3" + "SmartSwitch"
-// #define PROJECT "MyESP32C3"
-// #define MY_BUILD_VERSION "SmartSwitch"
+// #define PROJECT "Lerlink_ESP32C3_IR"
+// #define MY_BUILD_VERSION "LX-IR01"
 
 #undef PROJECT
-#define PROJECT "Lerlink"  // 自定义第一行名称
+#define PROJECT "Lerlink_ESP32C3_IR"  // 自定义第一行名称
+
+//Version 没显示出来，第二行固定显示  Tasmota
 #undef MY_BUILD_VERSION
 #define MY_BUILD_VERSION "LX-IR01"  // 自定义第二行名称
 
