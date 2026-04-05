@@ -3740,9 +3740,16 @@ const mytmplt kModules[] PROGMEM = {
 
 
 //Ler 20260405 
-// ========== 强制配置ESP32C3 GPIO模板（15.3.0.3专用） ==========
+
+// ========== 15.3.0.3版本专属：修改WebUI顶部两行标题 ==========
+// 第一行（原ESP32C3）：修改模块模板的NAME字段
 #undef TEMPLATE_GENERIC
-#define TEMPLATE_GENERIC "{\"NAME\":\"ESP32C3\",\"GPIO\":[0,0,0,0,0,576,0,0,0,32,0,0,0,0,0,0,0,0,1056,1088,0,0],\"FLAG\":0,\"BASE\":1}"
+#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink\",\"GPIO\":[0,0,0,0,0,576,0,0,0,32,0,0,0,0,0,0,0,0,1056,1088,0,0],\"FLAG\":0,\"BASE\":1}"
+
+// 第二行（原Tasmota）：修改固件类型标识
+#undef FIRMWARE_TYPE
+#define FIRMWARE_TYPE "LX-IR V1.0"
+
 
 #undef BASE_TEMPLATE
 #define BASE_TEMPLATE TEMPLATE_GENERIC
