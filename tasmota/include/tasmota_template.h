@@ -3739,7 +3739,7 @@ const mytmplt kModules[] PROGMEM = {
 
 
 
-//Ler
+//Ler 20260405 
 // ========== 强制配置ESP32C3 GPIO模板（15.3.0.3专用） ==========
 #undef TEMPLATE_GENERIC
 #define TEMPLATE_GENERIC "{\"NAME\":\"ESP32C3\",\"GPIO\":[0,0,0,0,0,576,0,0,0,32,0,0,0,0,0,0,0,0,1056,1088,0,0],\"FLAG\":0,\"BASE\":1}"
@@ -3755,7 +3755,40 @@ const mytmplt kModules[] PROGMEM = {
 #undef USER_BACKLOG
 #define USER_BACKLOG "Module 0; Template " TEMPLATE_GENERIC "; Restart 1"
 
+//解锁串口输入功能
+#define SERIAL_CONSOLE_INPUT 1
 
+// 2. 修改WebUI顶部显示名称
+
+// 示例：比如想显示 "MyESP32C3" + "SmartSwitch"
+// #define PROJECT "MyESP32C3"
+// #define MY_BUILD_VERSION "SmartSwitch"
+
+#undef PROJECT
+#define PROJECT "Lerlink"  // 自定义第一行名称
+#undef MY_BUILD_VERSION
+#define MY_BUILD_VERSION "LX-IR01"  // 自定义第二行名称
+
+// 3. 自定义串口打印信息
+#undef USER_INITIALIZE
+#define USER_INITIALIZE \
+  Serial.begin(SERIAL_BAUDRATE); \
+  delay(100); \
+  Serial.println("\n========================"); \
+  Serial.println("  Lerlink"); \
+  Serial.println("========================"); \
+  Serial.print("  设备标识："); Serial.println(PROJECT); \
+  Serial.print("  固件版本："); Serial.println(MY_BUILD_VERSION); \
+  Serial.print("  GPIO配置模板："); Serial.println(TEMPLATE_GENERIC); \
+  Serial.println("  串口波特率：115200"); \
+  Serial.println("  GPIO配置已生效 ✅"); \
+  Serial.println("========================\n");
+
+// 4. 串口基础配置（必加）
+#undef SERIAL_BAUDRATE
+#define SERIAL_BAUDRATE 115200
+#define SERIAL_CONSOLE_INPUT 1
+#define SERIAL_CONSOLE_OUTPUT 1
 
 
 
