@@ -1,3 +1,4 @@
+
 name: Tasmota_build_devel
 
 on:
@@ -20,13 +21,19 @@ jobs:
       - name: Install PlatformIO
         run: |
           pip install -U platformio
-          # 关键：复制覆盖配置文件，确保板型定义生效
           cp ./platformio_override_sample.ini ./platformio_override.ini
 
       - name: Build ESP8266 IR
         run: platformio run -e tasmota-ir
 
+      # 只保留你需要的 4 个文件，其他全部排除
       - uses: actions/upload-artifact@v4
         with:
           name: firmwares
-          path: .pio/build/tasmota-ir/
+          path: |
+            .pio/build/tasmota-ir/firmware.bin
+            .pio/build/tasmota-ir/firmware.factory.bin
+            .pio/build/tasmota-ir/bootloader.bin
+            .pio/build/tasmota-ir/partitions.bin
+
+
