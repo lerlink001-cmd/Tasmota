@@ -3,7 +3,7 @@
 
 // 强制锁定模板，最高优先级，无视Flash配置
 #undef TEMPLATE_GENERIC
-#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,0,0,0,576,0],\"FLAG\":0,\"BASE\":1}"
+#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
 
 #undef MODULE
 #define MODULE 1  // 强制通用模块，彻底禁用自动匹配Sonoff/Teckin
