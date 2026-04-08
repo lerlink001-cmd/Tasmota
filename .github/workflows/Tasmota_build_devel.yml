@@ -1,126 +1,22 @@
 name: Tasmota_build_devel
 
 on:
-  workflow_dispatch:  # 手动触发
-  push:
-    branches: [esp8266-ir]  # 仅监听目标分支
-    paths-ignore:
-      - '.github/**'
-      - '**.md'
-      - 'tasmota/berry/**'
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 jobs:
-  be_solidify:
+  build_esp8266_ir:
     runs-on: ubuntu-latest
-    if: always()
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v6
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.13'
-      - name: Make Berry code
-        run: |
-          cd lib/libesp32/berry && make
-          cd ../berry_tasmota && ../berry/berry -s -g solidify_all.be
-          cd ../berry_matter && ../berry/berry -s -g solidify_all.be
-          cd ../berry_animation && ../berry/berry -s -g solidify_all.be
-          cd ../../libesp32_lvgl/lv_binding_berry && ../../libesp32/berry/berry -s -g solidify_all.be
-          cd ../lv_haspmota && ../../libesp32/berry/berry -s -g solidify_all.be
-      - uses: actions/upload-artifact@v4
-        with:
-          name: berry
-          path: |
-            ./lib/libesp32/berry_tasmota/src/solidify
-            ./lib/libesp32/berry_matter/src/solidify
-            ./lib/libesp32/berry_animation/src/solidify
-            ./lib/libesp32_lvgl/lv_binding_berry/src/solidify
-            ./lib/libesp32_lvgl/lv_haspmota/src/solidify
-            ./lib/libesp32/berry/generate
-
-  push_solidified:
-    needs: be_solidify
-    runs-on: ubuntu-latest
-    if: always()
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v6
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: berry
-          path: berry
-      - name: Move files
-        run: |
-          mv berry/berry/libesp32/berry_tasmota/src/solidify/* ./lib/libesp32/berry_tasmota/src/solidify/
-          mv berry/berry/libesp32/berry_matter/src/solidify/* ./lib/libesp32/berry_matter/src/solidify/
-          mv berry/berry/libesp32/berry_animation/src/solidify/* ./lib/libesp32/berry_animation/src/solidify/
-          mv berry/berry/libesp32_lvgl/lv_binding_berry/src/solidify/* ./lib/libesp32_lvgl/lv_binding_berry/src/solidify/
-          mv berry/berry/libesp32_lvgl/lv_haspmota/src/solidify/* ./lib/libesp32_lvgl/lv_haspmota/src/solidify/
-          mv berry/berry/libesp32/berry/generate/* ./lib/libesp32/berry/generate/
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Update solidified Berry
-
-  # 核心编译任务：仅编译ESP8266 IR
-  base-images:
-    needs: push_solidified
-    runs-on: ubuntu-latest
-    if: always()
-    continue-on-error: true
-    strategy:
-      matrix:
-        variant: [tasmota-ir]  # 强制只编译这一个
-    steps:
-      - uses: actions/checkout@v6
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-      - name: Install deps
-        run: uv pip install --system -U https://github.com/pioarduino/platformio-core/archive/refs/tags/v6.1.19.zip
+      - name: Install PlatformIO
+        run: pip install -U platformio
       - name: Build ESP8266 IR
-        run: platformio run -e ${{ matrix.variant }}
+        run: platformio run -e tasmota-ir
       - uses: actions/upload-artifact@v4
         with:
-          name: firmware-${{ matrix.variant }}
-          path: .pio/build/${{ matrix.variant }}/
-
-  # 屏蔽其他任务，直接收尾
-  safeboot-images:
-    needs: push_solidified
-    runs-on: ubuntu-latest
-    if: always()
-    strategy:
-      matrix:
-        variant: []
-
-  base32-images:
-    needs: safeboot-images
-    runs-on: ubuntu-latest
-    if: always()
-    strategy:
-      matrix:
-        variant: []
-
-  language-images:
-    needs: safeboot-images
-    runs-on: ubuntu-latest
-    if: always()
-    strategy:
-      matrix:
-        variant: []
-
-  Start_final_copy:
-    needs: [base-images, base32-images, language-images]
-    runs-on: ubuntu-latest
-    if: always()
-    run: echo "Done"
+          name: firmwares
+          path: .pio/build/tasmota-ir/
