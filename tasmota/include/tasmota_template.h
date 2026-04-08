@@ -3889,7 +3889,7 @@ const mytmplt kModules[] PROGMEM = {
 
 // 4. 配置版本号，强制刷新配置
 #undef CFG_HOLDER
-#define CFG_HOLDER 999889
+#define CFG_HOLDER 123456
 
 // 5. 开机自动加载红外模板（防止旧配置干扰）
 #undef USER_BACKLOG
