@@ -3869,26 +3869,25 @@ const mytmplt kModules[] PROGMEM = {
 #define SERIAL_CONSOLE_OUTPUT 1
 
 
+ */
 
 
 
 
+// 🔴 终极锁死：禁用所有自动匹配，强制使用自定义模板
+#undef TEMPLATE_AUTODETECT
+#define TEMPLATE_AUTODETECT 0  // 彻底关闭硬件自动检测，永不匹配Sonoff/Teckin
 
-// 你的完美配置（永久不跳变、不清WiFi）
 #undef TEMPLATE_GENERIC
 #define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
 
-#undef MODULE
-#define MODULE 1
 
-#undef  FORCE_MODULE
-#define FORCE_MODULE 1
+#undef MODULE
+#define MODULE 1  // 强制通用模块，彻底禁用内置模块
 
 #undef CFG_HOLDER
-#define CFG_HOLDER 999889
+#define CFG_HOLDER 999888
 
-
- */
 
 
 #endif  // _TASMOTA_TEMPLATE_H_
