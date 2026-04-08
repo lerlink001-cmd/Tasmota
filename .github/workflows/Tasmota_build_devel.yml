@@ -1,15 +1,15 @@
 name: Build_development
 
 on:
-  workflow_dispatch:      # Start a workflow
+  workflow_dispatch:      # 手动触发工作流
   push:
-    branches: development
+    branches: esp8266-ir  # 仅监听esp8266-ir分支的推送（适配你的8266分支）
     paths-ignore:
-    - '.github/**'        # Ignore changes towards the .github directory
-    - '**.md'             # Do no build if *.md files changes
-    - 'tasmota/berry/**'  # Ignore Berry examples
+    - '.github/**'        # 忽略.github目录变更
+    - '**.md'             # 忽略md文件变更
+    - 'tasmota/berry/**'  # 忽略Berry示例变更
 
-# Ensures that only one deploy task per branch/environment will run at a time.
+# 确保同一分支仅运行一个编译任务
 concurrency:
   group: environment-${{ github.ref }}
   cancel-in-progress: true
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   be_solidify:
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota' && github.ref_name == 'development'
+    if: always()  # 强制运行，无视官方仓库限制
     continue-on-error: true
     steps:
       - uses: actions/checkout@v6
@@ -54,7 +54,7 @@ jobs:
   push_solidified:
     needs: be_solidify
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota' && github.ref_name == 'development'
+    if: always()  # 强制运行
     continue-on-error: true
     steps:
       - uses: actions/checkout@v6
@@ -82,81 +82,25 @@ jobs:
   safeboot-images:
     needs: push_solidified
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: always()  # 强制运行
     continue-on-error: true
     strategy:
       matrix:
-        variant:
-          - tasmota32-safeboot
-          - tasmota32solo1-safeboot
-          - tasmota32s2-safeboot
-          - tasmota32s2cdc-safeboot
-          - tasmota32s3-safeboot
-          - tasmota32s3ser-safeboot
-          - tasmota32c2-safeboot
-          - tasmota32c3-safeboot
-          - tasmota32c3ser-safeboot
-          - tasmota32c5-safeboot
-          - tasmota32c5ser-safeboot
-          - tasmota32c6-safeboot
-          - tasmota32c6ser-safeboot
-          - tasmota32p4-safeboot
-          - tasmota32p4ser-safeboot
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: development
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
-        with:
-          version: "latest"
-          enable-cache: false
-      - name: Install dependencies
-        run: |
-          uv pip install --system -U https://github.com/pioarduino/platformio-core/archive/refs/tags/v6.1.19.zip
-          cp ./platformio_override_sample.ini ./platformio_override.ini
-      - name: Add SHA to footer
-        run: |
-          COMMIT_SHA_LONG=$(git rev-parse --short HEAD || echo "")
-          SHA=${COMMIT_SHA_LONG::7}
-          sed -i -e "s/TASMOTA_SHA_SHORT/TASMOTA_SHA_SHORT $SHA-/g" ./tasmota/include/tasmota_version.h
-      - name: Run PlatformIO
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: '1'
-        run: platformio run -e ${{ matrix.variant }} 
-      - name: Upload safeboot firmware artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.variant }}
-          path: ./build_output
+        variant: []  # 清空ESP32 safeboot编译项
 
   base-images:
     needs: push_solidified
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: always()  # 强制运行
     continue-on-error: true
     strategy:
       matrix:
         variant:
-          - tasmota
-          - tasmota-4M
-          - tasmota-minimal
-          - tasmota-display
-          - tasmota-ir
-          - tasmota-knx
-          - tasmota-lite
-          - tasmota-sensors
-          - tasmota-zbbridge
-          - tasmota-zigbee
+          - tasmota-ir  # 仅保留ESP8266红外编译
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: development
+          ref: esp8266-ir  # 强制拉取esp8266-ir分支代码
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -188,129 +132,27 @@ jobs:
   base32-images:
     needs: safeboot-images
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: always()  # 强制运行
     continue-on-error: true
     strategy:
       matrix:
-        variant:
-          - tasmota32
-          - tasmota32-zbbrdgpro
-          - tasmota32-webcam
-          - tasmota32-bluetooth
-          - tasmota32-nspanel
-          - tasmota32-display
-          - tasmota32-ir
-          - tasmota32-lvgl
-          - tasmota32c2
-          - tasmota32c3
-          - tasmota32c5
-          - tasmota32c6
-          - tasmota32p4
-          - tasmota32s2
-          - tasmota32s2cdc
-          - tasmota32s3
-          - tasmota32solo1
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: development
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
-        with:
-          version: "latest"
-          enable-cache: false
-      - name: Install dependencies
-        run: |
-          uv pip install --system -U https://github.com/pioarduino/platformio-core/archive/refs/tags/v6.1.19.zip
-          cp ./platformio_override_sample.ini ./platformio_override.ini
-      - name: Download safeboot firmwares
-        uses: actions/download-artifact@v4
-        with:
-          pattern: tasmota32*
-          path: ./temp
-      - name: Move safeboot files
-        run: |
-          mkdir -p ./firmware/firmware
-          find ./temp -type f -exec cp -t ./firmware/firmware {} +
-      - name: Add SHA to footer
-        run: |
-          COMMIT_SHA_LONG=$(git rev-parse --short HEAD || echo "")
-          SHA=${COMMIT_SHA_LONG::7}
-          sed -i -e "s/TASMOTA_SHA_SHORT/TASMOTA_SHA_SHORT $SHA-/g" ./tasmota/include/tasmota_version.h
-      - name: Run PlatformIO
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: '1'
-        run: platformio run -e ${{ matrix.variant }}
-      - name: Upload firmware artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.variant }}
-          path: ./build_output
+        variant: []  # 清空所有ESP32编译项
 
   language-images:
     needs: safeboot-images
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: always()  # 强制运行
     continue-on-error: true
     strategy:
       matrix:
-        variant: [ tasmota, tasmota32 ]
-        language: [ AD, AF, BG, BR, CN, CZ, DE, ES, FR, FY, GR, HE, HU, IT, KO, LT, NL, PL, PT, RO, RU, SE, SK, TR, TW, UK, VN ]
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: development
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
-        with:
-          version: "latest"
-          enable-cache: false
-      - name: Install dependencies
-        run: |
-          uv pip install --system -U https://github.com/pioarduino/platformio-core/archive/refs/tags/v6.1.19.zip
-          cp ./platformio_override_sample.ini ./platformio_override.ini
-      - name: Download safeboot firmwares
-        uses: actions/download-artifact@v4
-        with:
-          pattern: tasmota32*
-          path: ./temp
-      - name: Move safeboot files
-        run: |
-          mkdir -p ./firmware/firmware
-          find ./temp -type f -exec cp -t ./firmware/firmware {} +
-      - name: Add SHA to footer
-        run: |
-          COMMIT_SHA_LONG=$(git rev-parse --short HEAD || echo "")
-          SHA=${COMMIT_SHA_LONG::7}
-          sed -i -e "s/TASMOTA_SHA_SHORT/TASMOTA_SHA_SHORT $SHA-/g" ./tasmota/include/tasmota_version.h
-      - name: Run PlatformIO
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: '1'
-        run: platformio run -e ${{ matrix.variant }}-${{ matrix.language }}
-      - name: Upload language firmware artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.variant }}-${{ matrix.language }}
-          path: ./build_output
+        variant: []  # 清空多语言编译项
 
   Start_final_copy:
     needs: [base-images, base32-images, language-images]
     runs-on: ubuntu-latest
+    if: always()  # 强制运行
     env:
       GH_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
     steps:
-    - name: Dispatch workflow in arendst/Tasmota-firmware
-      run: |
-        gh api repos/arendst/Tasmota-firmware/actions/workflows/fetch_deploy.yml/dispatches \
-          --method POST \
-          -f ref='gh_actions'
+    - name: Dispatch workflow (skip for custom build)
+      run: echo "Custom ESP8266 IR build completed"  # 跳过官方固件同步，仅提示编译完成
