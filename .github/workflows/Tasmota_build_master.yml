@@ -1,14 +1,15 @@
 name: Build_firmware_master
-/*
-on:
-  workflow_dispatch:      # Start a workflow
-  push:
-    branches: master
-    paths-ignore:
-    - '.github/**'        # Ignore changes towards the .github directory
-    - '**.md'             # Do no build if *.md files changes
-    - 'tasmota/berry/**'  # Ignore Berry examples
-*/
+
+// 3-10行是原来的，15-28行是修改的， ler,20260408
+//on:
+//  workflow_dispatch:      # Start a workflow
+//  push:
+//    branches: master
+//    paths-ignore:
+//    - '.github/**'        # Ignore changes towards the .github directory
+//    - '**.md'             # Do no build if *.md files changes
+//    - 'tasmota/berry/**'  # Ignore Berry examples
+//
 
 
 on:
