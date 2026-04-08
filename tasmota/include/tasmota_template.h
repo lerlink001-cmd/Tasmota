@@ -3872,16 +3872,16 @@ const mytmplt kModules[] PROGMEM = {
 
 
 // ESP8266红外专属配置
+
 #undef TEMPLATE_GENERIC
 #define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
+
+// 关键：强制锁定模块，永不显示 Teckin
 #undef MODULE
-#define MODULE 51  // 启用红外模块
+#define MODULE 1
+
 #undef CFG_HOLDER
-#define CFG_HOLDER 999889
-
-
-
-
+#define CFG_HOLDER 999888
 
 //  */
 
