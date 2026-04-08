@@ -3,11 +3,11 @@ name: Build_development
 on:
   workflow_dispatch:      # 手动触发工作流
   push:
-    branches: esp8266-ir  # 仅监听esp8266-ir分支的推送（适配你的8266分支）
+    branches: [esp8266-ir]  # 仅监听esp8266-ir分支的推送
     paths-ignore:
-    - '.github/**'        # 忽略.github目录变更
-    - '**.md'             # 忽略md文件变更
-    - 'tasmota/berry/**'  # 忽略Berry示例变更
+      - '.github/**'        # 忽略.github目录变更
+      - '**.md'             # 忽略md文件变更
+      - 'tasmota/berry/**'  # 忽略Berry示例变更
 
 # 确保同一分支仅运行一个编译任务
 concurrency:
@@ -99,8 +99,6 @@ jobs:
           - tasmota-ir  # 仅保留ESP8266红外编译
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: esp8266-ir  # 强制拉取esp8266-ir分支代码
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -151,8 +149,6 @@ jobs:
     needs: [base-images, base32-images, language-images]
     runs-on: ubuntu-latest
     if: always()  # 强制运行
-    env:
-      GH_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
     steps:
-    - name: Dispatch workflow (skip for custom build)
-      run: echo "Custom ESP8266 IR build completed"  # 跳过官方固件同步，仅提示编译完成
+      - name: Custom ESP8266 IR build completed
+        run: echo "✅ ESP8266 IR firmware build completed successfully!"
