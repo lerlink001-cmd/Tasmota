@@ -3801,7 +3801,7 @@ const mytmplt kModules[] PROGMEM = {
 #define SERIAL_CONSOLE_INPUT 1
 #define SERIAL_CONSOLE_OUTPUT 1
 
-*/
+
 
 
 //ESP32C3-LXIRTH
@@ -3868,6 +3868,16 @@ const mytmplt kModules[] PROGMEM = {
 #define SERIAL_CONSOLE_INPUT 1
 #define SERIAL_CONSOLE_OUTPUT 1
 
+*/
+
+
+// ESP8266红外专属配置
+#undef TEMPLATE_GENERIC
+#define TEMPLATE_GENERIC "{\"NAME\":\"ESP8266-IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
+#undef MODULE
+#define MODULE 51  // 启用红外模块
+#undef CFG_HOLDER
+#define CFG_HOLDER 999889
 
 
 
