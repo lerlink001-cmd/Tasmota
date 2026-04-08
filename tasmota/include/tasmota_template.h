@@ -3803,7 +3803,7 @@ const mytmplt kModules[] PROGMEM = {
 
 */
 
-/*
+
 //ESP32C3-LXIRTH
 // ========== 15.3.0.3版本专属：修改WebUI顶部两行标题 ==========
 // 第一行（原ESP32C3）：修改模块模板的NAME字段
@@ -3868,46 +3868,9 @@ const mytmplt kModules[] PROGMEM = {
 #define SERIAL_CONSOLE_INPUT 1
 #define SERIAL_CONSOLE_OUTPUT 1
 
-*/
 
 
-//  /*
-//ESP8266-LXIR
-// ========== ESP8266 红外功能 GPIO 配置（tasmota-ir.bin专用） ==========
 
-// 1. 覆盖默认模板：指定红外发射/接收引脚（核心！）
-#undef TEMPLATE_GENERIC
-#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
-
-// 2. 强制启用红外模块（tasmota-ir.bin核心）
-#undef MODULE
-#define MODULE 51  // 51 = IR模块（固定值，启用红外功能）
-
-// 3. 强制关联模板，确保GPIO生效
-#undef BASE_TEMPLATE
-#define BASE_TEMPLATE TEMPLATE_GENERIC
-
-// 4. 配置版本号，强制刷新配置
-#undef CFG_HOLDER
-#define CFG_HOLDER 123456
-
-// 5. 开机自动加载红外模板（防止旧配置干扰）
-#undef USER_BACKLOG
-#define USER_BACKLOG "Module 51; Template " TEMPLATE_GENERIC "; Restart 1"
-
-// 6. 串口打印（验证配置，可选）
-#undef USER_INITIALIZE
-#define USER_INITIALIZE \
-  Serial.begin(115200); \
-  delay(100); \
-  Serial.println("\n===== Lerlink_ESP8266_IR ====="); \
-  Serial.println("V1.0"); \
-  Serial.println("========================\n");
-
-// 7. 串口基础配置
-#define SERIAL_BAUDRATE 115200
-#define SERIAL_CONSOLE_INPUT 1
-#define SERIAL_CONSOLE_OUTPUT 1
 
 
 //  */
