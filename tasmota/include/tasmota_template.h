@@ -3873,7 +3873,7 @@ const mytmplt kModules[] PROGMEM = {
 
 // ESP8266红外专属配置
 #undef TEMPLATE_GENERIC
-#define TEMPLATE_GENERIC "{\"NAME\":\"ESP8266-IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
+#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
 #undef MODULE
 #define MODULE 51  // 启用红外模块
 #undef CFG_HOLDER
