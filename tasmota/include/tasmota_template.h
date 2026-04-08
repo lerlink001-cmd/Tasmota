@@ -3886,7 +3886,7 @@ const mytmplt kModules[] PROGMEM = {
 #define MODULE 1  // 强制通用模块，彻底禁用内置模块
 
 #undef CFG_HOLDER
-#define CFG_HOLDER 999888
+#define CFG_HOLDER 999889
 
 
 
