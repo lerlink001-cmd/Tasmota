@@ -1,6 +1,6 @@
-name: Build_firmware_master
+#name: Build_firmware_master
 
-# 3-10行是原来的，15-28行是修改的， ler,20260408
+# 1-11行是原来的，15-30行是修改的， ler,20260408
 # on:
 #  workflow_dispatch:      # Start a workflow
 #  push:
@@ -12,6 +12,8 @@ name: Build_firmware_master
 #
 
 
+
+name: Build_development
 on:
   workflow_dispatch:
     inputs:
