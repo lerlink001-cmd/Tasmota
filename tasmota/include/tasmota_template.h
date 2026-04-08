@@ -3868,7 +3868,7 @@ const mytmplt kModules[] PROGMEM = {
 #define SERIAL_CONSOLE_INPUT 1
 #define SERIAL_CONSOLE_OUTPUT 1
 
-*/
+
 
 
 
@@ -3888,7 +3888,7 @@ const mytmplt kModules[] PROGMEM = {
 #define CFG_HOLDER 999889
 
 
-//  */
+ */
 
 
 #endif  // _TASMOTA_TEMPLATE_H_
