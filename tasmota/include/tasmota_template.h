@@ -3871,17 +3871,21 @@ const mytmplt kModules[] PROGMEM = {
 */
 
 
-// ESP8266红外专属配置
 
+// 强制锁定：Lerlink_ESP8266_IR 模板，永不自动匹配 Sonoff/Teckin
 #undef TEMPLATE_GENERIC
-#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
+#define TEMPLATE_GENERIC "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,0,0,0,576,0],\"FLAG\":0,\"BASE\":1}"
 
-// 关键：强制锁定模块，永不显示 Teckin
+// 🔴 关键：强制锁定为 通用模块（MODULE 1），彻底禁用自动匹配
 #undef MODULE
 #define MODULE 1
+#undef MODULE_RF
+#define MODULE_RF 0  // 禁用 RF 模块，杜绝 Sonoff RF 匹配
+#undef MODULE_IR
+#define MODULE_IR 1  // 仅启用 IR 模块
 
 #undef CFG_HOLDER
-#define CFG_HOLDER 999888
+#define CFG_HOLDER 999889  // 唯一配置标识，防止重置
 
 //  */
 
