@@ -1,29 +1,33 @@
-
-
 #ifndef _USER_CONFIG_OVERRIDE_H_
 #define _USER_CONFIG_OVERRIDE_H_
 
-// 开启 IR
+// 1. 启用红外功能（必须放在最前）
 #define USE_IR_REMOTE
 #define USE_IR_RECEIVE
 
-// 🔥 强制禁用自动模块检测（最高优先级！）
+// 2. 🔥 彻底关闭所有自动检测（最高优先级，强制禁用Sonoff匹配）
 #define DISABLE_MODULE_AUTO_DETECT
-
-// 🔥 强制禁用自动模板检测
-#undef  TEMPLATE_AUTODETECT
+#undef TEMPLATE_AUTODETECT
 #define TEMPLATE_AUTODETECT 0
+#undef USE_MODULE_DETECTION
+#define USE_MODULE_DETECTION 0
 
-// 🔥 强制模块 = 0
-#undef  MODULE
+// 3. 🔥 强制模块为0（自定义模式，必须在模板前定义）
+#undef MODULE
 #define MODULE 0
+#undef FALLBACK_MODULE
+#define FALLBACK_MODULE 0
 
-// 🔥 你的模板
-#undef  DEFAULT_TEMPLATE
-#define DEFAULT_TEMPLATE "{\"NAME\":\"Lerlink_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":0}"
+// 4. 🔥 强制默认模板（17位完整JSON，严格符合ESP8266规范）
+#undef DEFAULT_TEMPLATE
+#define DEFAULT_TEMPLATE "{\"NAME\":\"Lerlink_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
 
-// 防重置
-#undef  CFG_HOLDER
-#define CFG_HOLDER 999889
+// 5. 🔥 强制配置防重置，防止被系统覆盖
+#undef CFG_HOLDER
+#define CFG_HOLDER 99988999
+
+// 6. （可选）固化WiFi，烧录即用
+#define WIFI_SSID "你的WiFi名称"
+#define WIFI_PASSWORD "你的WiFi密码"
 
 #endif
