@@ -29,12 +29,16 @@ jobs:
       - name: Build Tasmota Standard (4M)
         run: platformio run -e tasmota-4M
 
-      # 🔥 修正固件路径，从 PlatformIO 标准输出目录提取
+      # 🔥 只复制存在的 .bin 文件，跳过不存在的 .gz，避免报错
       - name: Move firmware to build_output
         run: |
           mkdir -p build_output
-          cp .pio/build/tasmota-4M/firmware.bin build_output/tasmota-4M.bin
-          cp .pio/build/tasmota-4M/firmware.bin.gz build_output/tasmota-4M.bin.gz
+          if [ -f .pio/build/tasmota-4M/firmware.bin ]; then
+            cp .pio/build/tasmota-4M/firmware.bin build_output/tasmota-4M.bin
+          fi
+          if [ -f .pio/build/tasmota-4M/firmware.bin.gz ]; then
+            cp .pio/build/tasmota-4M/firmware.bin.gz build_output/tasmota-4M.bin.gz
+          fi
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
