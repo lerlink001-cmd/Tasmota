@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: recursive  # 必须，Tasmota 依赖子模块
+          submodules: recursive
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -26,12 +26,19 @@ jobs:
           python -m pip install -U pip
           pip install -U platformio
 
-      # 🔥 编译 Tasmota 官方标准 4M 环境
       - name: Build Tasmota Standard (4M)
         run: platformio run -e tasmota-4M
+
+      # 🔥 修正固件路径，从 PlatformIO 标准输出目录提取
+      - name: Move firmware to build_output
+        run: |
+          mkdir -p build_output
+          cp .pio/build/tasmota-4M/firmware.bin build_output/tasmota-4M.bin
+          cp .pio/build/tasmota-4M/firmware.bin.gz build_output/tasmota-4M.bin.gz
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: tasmota-4M-firmware
           path: build_output/*.bin
+          retention-days: 7
