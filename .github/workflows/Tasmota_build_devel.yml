@@ -1,4 +1,3 @@
-
 name: Build Tasmota Standard Firmware
 
 on:
@@ -14,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive  # 必须，Tasmota 依赖子模块
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -25,12 +26,12 @@ jobs:
           python -m pip install -U pip
           pip install -U platformio
 
-      # 🔥 只编译标准 4M 版本，绝对没有 IR 版本
-      - name: Build Tasmota Standard
+      # 🔥 编译 Tasmota 官方标准 4M 环境
+      - name: Build Tasmota Standard (4M)
         run: platformio run -e tasmota-4M
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
-          name: firmware
+          name: tasmota-4M-firmware
           path: build_output/*.bin
