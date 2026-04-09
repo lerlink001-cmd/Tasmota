@@ -5,7 +5,7 @@
 #define USE_IR_REMOTE
 #define USE_IR_RECEIVE
 
-// 2. 🔥 彻底关闭所有自动检测（最高优先级，强制禁用Sonoff匹配）
+// 2. 🔥 终极锁死：彻底关闭所有自动检测（最高优先级，强制禁用Sonoff匹配）
 #define DISABLE_MODULE_AUTO_DETECT
 #undef TEMPLATE_AUTODETECT
 #define TEMPLATE_AUTODETECT 0
@@ -22,12 +22,8 @@
 #undef DEFAULT_TEMPLATE
 #define DEFAULT_TEMPLATE "{\"NAME\":\"Lerlink_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
 
-// 5. 🔥 强制配置防重置，防止被系统覆盖
+// 5. 🔥 强制配置防重置，彻底让旧配置失效
 #undef CFG_HOLDER
 #define CFG_HOLDER 99988999
-
-// 6. （可选）固化WiFi，烧录即用
-#define WIFI_SSID "你的WiFi名称"
-#define WIFI_PASSWORD "你的WiFi密码"
 
 #endif
