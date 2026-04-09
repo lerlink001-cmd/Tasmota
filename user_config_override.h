@@ -7,7 +7,8 @@
 
 // 🔴 关键修正：先定义 DEFAULT_TEMPLATE，再设置 MODULE
 #undef DEFAULT_TEMPLATE
-#define DEFAULT_TEMPLATE "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,105,108,0,0,0,57,0,0,0,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
+#define DEFAULT_TEMPLATE "{\"NAME\":\"Lerlink_ESP8266_IR\",\"GPIO\":[32,0,0,0,1056,1088,0,0,0,576,0,0,0,0],\"FLAG\":0,\"BASE\":1}"
+
 
 // 🔴 关键修正：MODULE 必须设为 0，且在 DEFAULT_TEMPLATE 之后
 #undef MODULE
